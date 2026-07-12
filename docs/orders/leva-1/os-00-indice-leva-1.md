@@ -6,7 +6,7 @@
 | OS | Agente | Objeto | Fase da carta |
 |----|--------|--------|---------------|
 | OS-01 | Codex | Infra CT130 → `devos-3-core` | Fase 0 |
-| OS-02 | Cursor | Esqueleto do monorepo + fundação de tenancy (F1, F2.1–F2.2) | Fase 1 |
+| OS-02 | Cursor | Esqueleto do monorepo + fundação de tenancy (F1, F2.1–F2.2) | Fase 1 | **Entregue** |
 | OS-03 | Claude Code | ADR-001 (revisão adversarial do modelo de dados) + ADR-003 (auth) | Paralela às Fases 0–1 |
 | OS-04 | Gemini | Documentação de nascença do repo | Paralela |
 

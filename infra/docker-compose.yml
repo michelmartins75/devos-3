@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: devos3-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: devos_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init-roles.sql:/docker-entrypoint-initdb.d/01-init-roles.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d devos_app"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    container_name: devos3-api
+    environment:
+      ENVIRONMENT: development
+      LOG_LEVEL: INFO
+      DATABASE_URL: postgresql+psycopg://devos_api:devos_api@postgres:5432/devos_app
+      DATABASE_MIGRATOR_URL: postgresql+psycopg://devos_migrator:devos_migrator@postgres:5432/devos_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
