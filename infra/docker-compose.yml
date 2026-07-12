@@ -25,6 +25,7 @@ services:
     environment:
       ENVIRONMENT: development
       LOG_LEVEL: INFO
+      CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
       DATABASE_URL: postgresql+psycopg://devos_api:devos_api@postgres:5432/devos_app
       DATABASE_MIGRATOR_URL: postgresql+psycopg://devos_migrator:devos_migrator@postgres:5432/devos_app
     ports:
@@ -32,6 +33,18 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  web:
+    build:
+      context: ../apps/web
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:8080
+    container_name: devos3-web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
 
 volumes:
   postgres_data:
